@@ -6,6 +6,7 @@ plugins {
 
 group = 'io.github.ysbunny'
 version = '0.0.1-SNAPSHOT'
+description = 'community-service'
 
 java {
 	toolchain {

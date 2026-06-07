@@ -20,7 +20,7 @@ public class UserService {
                 request.getNickname(),
                 request.getProfileImage()
         );
-        return new CreateUserResponse(1L);
+        return new CreateUserResponse(user.getUserId());
     }
 
     public LoginUserResponse login(LoginUserRequest request) {

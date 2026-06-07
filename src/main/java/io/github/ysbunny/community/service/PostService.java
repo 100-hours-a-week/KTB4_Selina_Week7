@@ -18,7 +18,7 @@ public class PostService {
                 request.getContent(),
                 request.getPostImage()
         );
-        return new CreatePostResponse(1L);
+        return new CreatePostResponse(post.getPostId());
     }
 
     public PostDetailResponse getPost(Long postId) {

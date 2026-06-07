@@ -2,6 +2,7 @@ package io.github.ysbunny.community.controller;
 
 import io.github.ysbunny.community.dto.user.*;
 import io.github.ysbunny.community.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,25 +14,25 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    public CreateUserResponse createUser(@RequestBody CreateUserRequest request) {
+    public CreateUserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
         return userService.createUser(request);
     }
 
     @PostMapping("/log-in")
-    public LoginUserResponse logIn(@RequestBody LoginUserRequest request) {
+    public LoginUserResponse logIn(@Valid @RequestBody LoginUserRequest request) {
         return userService.login(request);
     }
 
     @PatchMapping("/{userId}")
     public UpdateUserResponse updateUser(
             @PathVariable Long userId,
-            @RequestBody UpdateUserRequest request
+            @Valid @RequestBody UpdateUserRequest request
     ) {
         return userService.updateUser(userId, request);
     }
 
     @PostMapping("/log-out")
-    public LogoutUserResponse logout(@RequestBody LogoutUserRequest request) {
+    public LogoutUserResponse logout(@Valid @RequestBody LogoutUserRequest request) {
         return userService.logout(request);
     }
 

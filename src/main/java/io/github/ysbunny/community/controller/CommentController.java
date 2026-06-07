@@ -3,6 +3,7 @@ package io.github.ysbunny.community.controller;
 import io.github.ysbunny.community.dto.comment.CreateCommentRequest;
 import io.github.ysbunny.community.dto.comment.CreateCommentResponse;
 import io.github.ysbunny.community.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class CommentController {
     @PostMapping
     public CreateCommentResponse createComment(
             @PathVariable Long postId,
-            @RequestBody CreateCommentRequest request
+            @Valid @RequestBody CreateCommentRequest request
     ) {
         return commentService.createComment(request);
     }

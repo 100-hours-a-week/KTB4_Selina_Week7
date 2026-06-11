@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 @Service
 @Validated
 @RequiredArgsConstructor
@@ -23,6 +25,14 @@ public class PostService {
                 request.getPostImage()
         );
         return new CreatePostResponse(post.getPostId());
+    }
+
+    public PostListResponse getPostList() {
+        PostListItemResponse item = new PostListItemResponse(
+                post.getPostId(),
+                post.getTitle()
+        );
+        return new PostListResponse(List.of(item));
     }
 
     public PostDetailResponse getPost(Long postId) {

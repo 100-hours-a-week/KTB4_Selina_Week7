@@ -18,6 +18,11 @@ public class PostController {
         return postService.createPost(request);
     }
 
+    @GetMapping
+    public PostListResponse getPostList() {
+        return postService.getPostList();
+    }
+
     @GetMapping("/{postId}")
     public PostDetailResponse getPost(@PathVariable Long postId) {
         return postService.getPost(postId);

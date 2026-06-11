@@ -2,10 +2,14 @@ package io.github.ysbunny.community.service;
 
 import io.github.ysbunny.community.domain.Post;
 import io.github.ysbunny.community.dto.post.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class PostService {
 
@@ -29,7 +33,10 @@ public class PostService {
         );
     }
 
-    public UpdatePostResponse updatePost(Long postId, UpdatePostRequest request) {
+    public UpdatePostResponse updatePost(
+            @Positive Long postId,
+            @Valid UpdatePostRequest request
+    ) {
         post.updateTitle(request.getTitle());
         post.updateContent(request.getContent());
 

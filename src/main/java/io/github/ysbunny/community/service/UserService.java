@@ -2,10 +2,14 @@ package io.github.ysbunny.community.service;
 
 import io.github.ysbunny.community.domain.User;
 import io.github.ysbunny.community.dto.user.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class UserService {
 
@@ -38,7 +42,10 @@ public class UserService {
         return new LoginUserResponse(user.getUserId(), loginToken);
     }
 
-    public UpdateUserResponse updateUser(Long userId, UpdateUserRequest request) {
+    public UpdateUserResponse updateUser(
+            @Positive Long userId,
+            @Valid UpdateUserRequest request
+    ) {
         if (request.getPassword() != null) {
             user.updatePassword(request.getPassword());
         }

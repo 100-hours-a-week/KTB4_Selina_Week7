@@ -27,4 +27,8 @@ public class Comment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
+    public void changeComment(String comment) {
+        this.comment = comment;
+    }
 }

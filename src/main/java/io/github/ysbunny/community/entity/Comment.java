@@ -28,6 +28,12 @@ public class Comment {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
+    public Comment(String comment, User author, Post post) {
+        this.comment = comment;
+        this.author = author;
+        this.post = post;
+    }
+
     public void changeComment(String comment) {
         this.comment = comment;
     }

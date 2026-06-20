@@ -31,6 +31,13 @@ public class Post {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
+    public Post(String title, String content, String postImage, User author) {
+        this.title = title;
+        this.content = content;
+        this.postImage = postImage;
+        this.author = author;
+    }
+
     public void changeTitle(String title) {
         this.title = title;
     }

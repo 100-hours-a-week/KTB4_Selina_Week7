@@ -24,6 +24,9 @@ public class User {
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments = new ArrayList<>();
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

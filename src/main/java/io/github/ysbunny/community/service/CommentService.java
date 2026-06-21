@@ -5,6 +5,7 @@ import io.github.ysbunny.community.dto.comment.CreateCommentResponse;
 import io.github.ysbunny.community.entity.Comment;
 import io.github.ysbunny.community.entity.Post;
 import io.github.ysbunny.community.entity.User;
+import io.github.ysbunny.community.repository.CommentRepository;
 import io.github.ysbunny.community.repository.PostRepository;
 import io.github.ysbunny.community.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 public class CommentService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public CreateCommentResponse createComment(
@@ -38,6 +40,8 @@ public class CommentService {
                 post
         );
 
-        return new CreateCommentResponse(comment.getId());
+        Comment savedComment = commentRepository.save(comment);
+
+        return new CreateCommentResponse(savedComment.getId());
     }
 }

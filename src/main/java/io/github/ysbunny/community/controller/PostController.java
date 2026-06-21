@@ -14,30 +14,37 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public CreatePostResponse createPost(@Valid @RequestBody CreatePostRequest request) {
-        return postService.createPost(request);
-    }
-
-    @GetMapping
-    public PostListResponse getPostList() {
-        return postService.getPostList();
-    }
-
-    @GetMapping("/{postId}")
-    public PostDetailResponse getPost(@PathVariable Long postId) {
-        return postService.getPost(postId);
-    }
-
-    @PutMapping("/{postId}")
-    public UpdatePostResponse updatePost(
-            @PathVariable Long postId,
-            @Valid @RequestBody UpdatePostRequest request
+    public CreatePostResponse createPost(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @Valid @RequestBody CreatePostRequest request
     ) {
-        return postService.updatePost(postId, request);
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        Long postId = postService.createPost(loginToken, request);
+
+        return new CreatePostResponse(postId);
     }
 
-    @DeleteMapping("/{postId}")
-    public DeletePostResponse deletePost(@PathVariable Long postId) {
-        return postService.deletePost(postId);
-    }
+//    @GetMapping
+//    public PostListResponse getPostList() {
+//        return postService.getPostList();
+//    }
+//
+//    @GetMapping("/{postId}")
+//    public PostDetailResponse getPost(@PathVariable Long postId) {
+//        return postService.getPost(postId);
+//    }
+//
+//    @PutMapping("/{postId}")
+//    public UpdatePostResponse updatePost(
+//            @PathVariable Long postId,
+//            @Valid @RequestBody UpdatePostRequest request
+//    ) {
+//        return postService.updatePost(postId, request);
+//    }
+//
+//    @DeleteMapping("/{postId}")
+//    public DeletePostResponse deletePost(@PathVariable Long postId) {
+//        return postService.deletePost(postId);
+//    }
 }

@@ -27,12 +27,12 @@ public class UserController {
     @PatchMapping("/{userId}")
     public UpdateUserResponse updateUser(
             @RequestHeader("Authorization") String authorizationHeader,
-            @PathVariable Long id,
+            @PathVariable Long userId,
             @Valid @RequestBody UpdateUserRequest request
     ) {
         String loginToken = authorizationHeader.replace("Bearer ", "");
 
-        User updated = userService.updateUser(loginToken, id, request);
+        User updated = userService.updateUser(loginToken, userId, request);
 
         return new UpdateUserResponse(updated.getNickname(), updated.getProfileImage());
     }

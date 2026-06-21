@@ -51,18 +51,26 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(Long id, UpdateUserRequest request) {
-        User user = findById(id);
+    public User updateUser(String loginToken, Long id, UpdateUserRequest request) {
+        User loginUser = userRepository.findByLoginToken(loginToken)
+                .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));
+
+        User findUser = findById(id);
+
+        if (!loginUser.getId().equals(findUser.getId())) {
+            throw new IllegalArgumentException("unauthorized user");
+        }
+
         if (request.getPassword() != null) {
-            user.changePassword(request.getPassword());
+            findUser.changePassword(request.getPassword());
         }
         if (request.getNickname() != null) {
-            user.changeNickname(request.getNickname());
+            findUser.changeNickname(request.getNickname());
         }
         if (request.getProfileImage() != null) {
-            user.changeProfileImage(request.getProfileImage());
+            findUser.changeProfileImage(request.getProfileImage());
         }
-        return user;
+        return findUser;
     }
 
     public LogoutUserResponse logout(LogoutUserRequest request) {
@@ -75,7 +83,16 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long id) {
+    public void deleteUser(String loginToken, Long id) {
+        User loginUser = userRepository.findByLoginToken(loginToken)
+                .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));
+
+        User findUser = findById(id);
+
+        if (!loginUser.getId().equals(findUser.getId())) {
+            throw new IllegalArgumentException("unauthorized user");
+        }
+
         userRepository.deleteById(id);
     }
 }

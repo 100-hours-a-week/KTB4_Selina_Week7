@@ -26,10 +26,14 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public UpdateUserResponse updateUser(
+            @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable Long id,
             @Valid @RequestBody UpdateUserRequest request
     ) {
-        User updated = userService.updateUser(id, request);
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        User updated = userService.updateUser(loginToken, id, request);
+
         return new UpdateUserResponse(updated.getNickname(), updated.getProfileImage());
     }
 
@@ -39,8 +43,14 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public DeleteUserResponse deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+    public DeleteUserResponse deleteUser(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable Long userId
+    ) {
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        userService.deleteUser(loginToken, userId);
+
         return new DeleteUserResponse("withdraw_success");
     }
 }

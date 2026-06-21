@@ -91,8 +91,19 @@ public class PostService {
         return new UpdatePostResponse("update success");
     }
 
-//    public DeletePostResponse deletePost(Long postId) {
-//        post = null;
-//        return new DeletePostResponse("delete_success");
-//    }
+    public DeletePostResponse deletePost(String loginToken, Long postId) {
+        User user = userRepository.findByLoginToken(loginToken)
+                .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("post does not exist"));
+
+        if (user != post.getAuthor()) {
+            throw new IllegalArgumentException("unauthorized user");
+        }
+
+        postRepository.deleteById(postId);
+
+        return new DeletePostResponse("delete_success");
+    }
 }

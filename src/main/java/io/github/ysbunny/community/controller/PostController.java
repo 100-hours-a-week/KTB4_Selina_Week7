@@ -46,8 +46,13 @@ public class PostController {
         return postService.updatePost(loginToken, postId, request);
     }
 
-//    @DeleteMapping("/{postId}")
-//    public DeletePostResponse deletePost(@PathVariable Long postId) {
-//        return postService.deletePost(postId);
-//    }
+    @DeleteMapping("/{postId}")
+    public DeletePostResponse deletePost(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable Long postId
+    ) {
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        return postService.deletePost(loginToken, postId);
+    }
 }

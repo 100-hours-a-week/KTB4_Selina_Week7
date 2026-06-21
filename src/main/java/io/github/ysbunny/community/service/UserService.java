@@ -32,10 +32,6 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("user not found"));
     }
 
-    public User getReferenceById(Long id) {
-        return userRepository.getReferenceById(id);
-    }
-
     @Transactional
     public LoginUserResponse login(LoginUserRequest request) {
         User user = userRepository.findByEmail(request.getEmail())

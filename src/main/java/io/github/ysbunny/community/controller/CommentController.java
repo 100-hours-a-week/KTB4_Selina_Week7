@@ -16,9 +16,12 @@ public class CommentController {
 
     @PostMapping
     public CreateCommentResponse createComment(
+            @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable Long postId,
             @Valid @RequestBody CreateCommentRequest request
     ) {
-        return commentService.createComment(request);
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        return commentService.createComment(loginToken, postId, request);
     }
 }

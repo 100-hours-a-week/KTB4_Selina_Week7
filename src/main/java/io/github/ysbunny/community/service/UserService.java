@@ -36,6 +36,7 @@ public class UserService {
         return userRepository.getReferenceById(id);
     }
 
+    @Transactional
     public LoginUserResponse login(LoginUserRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("email does not exist"));
@@ -73,6 +74,7 @@ public class UserService {
         return findUser;
     }
 
+    @Transactional
     public LogoutUserResponse logout(LogoutUserRequest request) {
         User user = userRepository.findByLoginToken(request.getToken())
                 .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));

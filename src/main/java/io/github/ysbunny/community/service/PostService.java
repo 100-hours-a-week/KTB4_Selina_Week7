@@ -66,6 +66,7 @@ public class PostService {
         );
     }
 
+    @Transactional
     public UpdatePostResponse updatePost(
             String loginToken,
             @Positive Long postId,
@@ -91,6 +92,7 @@ public class PostService {
         return new UpdatePostResponse("update success");
     }
 
+    @Transactional
     public DeletePostResponse deletePost(String loginToken, Long postId) {
         User user = userRepository.findByLoginToken(loginToken)
                 .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));

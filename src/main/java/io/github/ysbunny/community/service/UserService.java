@@ -1,74 +1,81 @@
 package io.github.ysbunny.community.service;
 
-import io.github.ysbunny.community.domain.User;
 import io.github.ysbunny.community.dto.user.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
+import io.github.ysbunny.community.entity.User;
+import io.github.ysbunny.community.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
-
-    private User user;
+    private final UserRepository userRepository;
     private String loginToken;
 
-    public CreateUserResponse createUser(CreateUserRequest request) {
-        user = new User(
-                1L,
+    @Transactional
+    public User createUser(CreateUserRequest request) {
+        User user = new User(
                 request.getEmail(),
                 request.getPassword(),
                 request.getNickname(),
                 request.getProfileImage()
         );
-        return new CreateUserResponse(user.getUserId());
+        return userRepository.save(user);
     }
 
-    public LoginUserResponse login(LoginUserRequest request) {
-        if (user == null) {
-            throw new IllegalArgumentException("invalid_request");
-        }
-        if (!user.getEmail().equals(request.getEmail())) {
-            throw new IllegalArgumentException("email does not exist");
-        }
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new IllegalArgumentException("password does not match");
-        }
-
-        loginToken = "qwertyuiopasdfghjklzxcvbnm";
-        return new LoginUserResponse(user.getUserId(), loginToken);
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("user not found"));
     }
 
-    public UpdateUserResponse updateUser(
-            @Positive Long userId,
-            @Valid UpdateUserRequest request
-    ) {
+    public User getReferenceById(Long id) {
+        return userRepository.getReferenceById(id);
+    }
+
+//    public User login(LoginUserRequest request) {
+//        if (user == null) {
+//            throw new IllegalArgumentException("invalid_request");
+//        }
+//        if (!user.getEmail().equals(request.getEmail())) {
+//            throw new IllegalArgumentException("email does not exist");
+//        }
+//        if (!user.getPassword().equals(request.getPassword())) {
+//            throw new IllegalArgumentException("password does not match");
+//        }
+//
+//        loginToken = "qwertyuiopasdfghjklzxcvbnm";
+//        return new LoginUserResponse(user.getUserId(), loginToken);
+//    }
+
+    @Transactional
+    public User updateUser(Long id, UpdateUserRequest request) {
+        User user = findById(id);
         if (request.getPassword() != null) {
-            user.updatePassword(request.getPassword());
+            user.changePassword(request.getPassword());
         }
         if (request.getNickname() != null) {
-            user.updateNickname(request.getNickname());
+            user.changeNickname(request.getNickname());
         }
         if (request.getProfileImage() != null) {
-            user.updateProfileImage(request.getProfileImage());
+            user.changeProfileImage(request.getProfileImage());
         }
-        return new UpdateUserResponse(user.getNickname(), user.getProfileImage());
+        return user;
     }
 
-    public LogoutUserResponse logout(LogoutUserRequest request) {
-        if (loginToken == null || !loginToken.equals(request.getToken())) {
-            throw new IllegalArgumentException("unauthenticated user");
-        }
+//    public LogoutUserResponse logout(LogoutUserRequest request) {
+//        if (loginToken == null || !loginToken.equals(request.getToken())) {
+//            throw new IllegalArgumentException("unauthenticated user");
+//        }
+//
+//        loginToken = null;
+//        return new LogoutUserResponse("logout_success");
+//    }
 
-        loginToken = null;
-        return new LogoutUserResponse("logout_success");
-    }
-
-    public DeleteUserResponse deleteUser(Long userId) {
-        user = null;
-        return new DeleteUserResponse("withdraw_success");
+    @Transactional
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

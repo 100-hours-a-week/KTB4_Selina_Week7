@@ -19,11 +19,10 @@ public class UserController {
         return new CreateUserResponse(saved.getId());
     }
 
-//    @PostMapping("/log-in")
-//    public LoginUserResponse logIn(@Valid @RequestBody LoginUserRequest request) {
-//        userService.login(request);
-//        return new LoginUserResponse();
-//    }
+    @PostMapping("/log-in")
+    public LoginUserResponse logIn(@Valid @RequestBody LoginUserRequest request) {
+        return userService.login(request);
+    }
 
     @PatchMapping("/{userId}")
     public UpdateUserResponse updateUser(
@@ -34,10 +33,10 @@ public class UserController {
         return new UpdateUserResponse(updated.getNickname(), updated.getProfileImage());
     }
 
-//    @PostMapping("/log-out")
-//    public LogoutUserResponse logout(@Valid @RequestBody LogoutUserRequest request) {
-//        return userService.logout(request);
-//    }
+    @PostMapping("/log-out")
+    public LogoutUserResponse logout(@Valid @RequestBody LogoutUserRequest request) {
+        return userService.logout(request);
+    }
 
     @DeleteMapping("/{userId}")
     public DeleteUserResponse deleteUser(@PathVariable Long userId) {

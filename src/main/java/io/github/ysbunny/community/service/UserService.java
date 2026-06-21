@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.UUID;
+
 @Service
 @Validated
 @RequiredArgsConstructor
@@ -35,20 +37,18 @@ public class UserService {
         return userRepository.getReferenceById(id);
     }
 
-//    public User login(LoginUserRequest request) {
-//        if (user == null) {
-//            throw new IllegalArgumentException("invalid_request");
-//        }
-//        if (!user.getEmail().equals(request.getEmail())) {
-//            throw new IllegalArgumentException("email does not exist");
-//        }
-//        if (!user.getPassword().equals(request.getPassword())) {
-//            throw new IllegalArgumentException("password does not match");
-//        }
-//
-//        loginToken = "qwertyuiopasdfghjklzxcvbnm";
-//        return new LoginUserResponse(user.getUserId(), loginToken);
-//    }
+    public LoginUserResponse login(LoginUserRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("email does not exist"));
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new IllegalArgumentException("password does not match");
+        }
+
+        loginToken = UUID.randomUUID().toString();
+
+        return new LoginUserResponse(user.getId(), loginToken);
+    }
 
     @Transactional
     public User updateUser(Long id, UpdateUserRequest request) {
@@ -65,14 +65,15 @@ public class UserService {
         return user;
     }
 
-//    public LogoutUserResponse logout(LogoutUserRequest request) {
-//        if (loginToken == null || !loginToken.equals(request.getToken())) {
-//            throw new IllegalArgumentException("unauthenticated user");
-//        }
-//
-//        loginToken = null;
-//        return new LogoutUserResponse("logout_success");
-//    }
+    public LogoutUserResponse logout(LogoutUserRequest request) {
+        if (loginToken == null || !loginToken.equals(request.getToken())) {
+            throw new IllegalArgumentException("unauthenticated user");
+        }
+
+        loginToken = null;
+
+        return new LogoutUserResponse("logout success");
+    }
 
     @Transactional
     public void deleteUser(Long id) {

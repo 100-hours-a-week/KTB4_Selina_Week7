@@ -35,14 +35,17 @@ public class PostController {
         return postService.getPost(postId);
     }
 
-//    @PutMapping("/{postId}")
-//    public UpdatePostResponse updatePost(
-//            @PathVariable Long postId,
-//            @Valid @RequestBody UpdatePostRequest request
-//    ) {
-//        return postService.updatePost(postId, request);
-//    }
-//
+    @PatchMapping("/{postId}")
+    public UpdatePostResponse updatePost(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable Long postId,
+            @Valid @RequestBody UpdatePostRequest request
+    ) {
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        return postService.updatePost(loginToken, postId, request);
+    }
+
 //    @DeleteMapping("/{postId}")
 //    public DeletePostResponse deletePost(@PathVariable Long postId) {
 //        return postService.deletePost(postId);

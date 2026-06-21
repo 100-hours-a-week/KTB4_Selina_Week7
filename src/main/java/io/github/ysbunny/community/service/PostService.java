@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,22 +40,32 @@ public class PostService {
         return savedPost.getId();
     }
 
-//    public PostListResponse getPostList() {
-//        PostListItemResponse item = new PostListItemResponse(
-//                post.getPostId(),
-//                post.getTitle()
-//        );
-//        return new PostListResponse(List.of(item));
-//    }
-//
-//    public PostDetailResponse getPost(Long postId) {
-//        return new PostDetailResponse(
-//                post.getTitle(),
-//                post.getContent(),
-//                post.getPostImage()
-//        );
-//    }
-//
+    public PostListResponse getPostList() {
+        List<Post> posts = postRepository.findAll();
+
+        List<PostListItemResponse> postListItemResponses = new ArrayList<>();
+
+        for (Post post : posts) {
+            Long postId = post.getId();
+            String postTitle = post.getTitle();
+
+            PostListItemResponse item = new PostListItemResponse(postId, postTitle);
+            postListItemResponses.add(item);
+        }
+        return new PostListResponse(postListItemResponses);
+    }
+
+    public PostDetailResponse getPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("post not found"));
+
+        return new PostDetailResponse(
+                post.getTitle(),
+                post.getContent(),
+                post.getPostImage()
+        );
+    }
+
 //    public UpdatePostResponse updatePost(
 //            @Positive Long postId,
 //            @Valid UpdatePostRequest request

@@ -25,16 +25,16 @@ public class PostController {
         return new CreatePostResponse(postId);
     }
 
-//    @GetMapping
-//    public PostListResponse getPostList() {
-//        return postService.getPostList();
-//    }
-//
-//    @GetMapping("/{postId}")
-//    public PostDetailResponse getPost(@PathVariable Long postId) {
-//        return postService.getPost(postId);
-//    }
-//
+    @GetMapping
+    public PostListResponse getPostList() {
+        return postService.getPostList();
+    }
+
+    @GetMapping("/{postId}")
+    public PostDetailResponse getPost(@PathVariable Long postId) {
+        return postService.getPost(postId);
+    }
+
 //    @PutMapping("/{postId}")
 //    public UpdatePostResponse updatePost(
 //            @PathVariable Long postId,

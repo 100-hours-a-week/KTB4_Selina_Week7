@@ -16,7 +16,6 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
-    private String loginToken;
 
     @Transactional
     public User createUser(CreateUserRequest request) {
@@ -45,7 +44,8 @@ public class UserService {
             throw new IllegalArgumentException("password does not match");
         }
 
-        loginToken = UUID.randomUUID().toString();
+        String loginToken = UUID.randomUUID().toString();
+        user.login(loginToken);
 
         return new LoginUserResponse(user.getId(), loginToken);
     }
@@ -66,11 +66,10 @@ public class UserService {
     }
 
     public LogoutUserResponse logout(LogoutUserRequest request) {
-        if (loginToken == null || !loginToken.equals(request.getToken())) {
-            throw new IllegalArgumentException("unauthenticated user");
-        }
+        User user = userRepository.findByLoginToken(request.getToken())
+                .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));
 
-        loginToken = null;
+        user.logout();
 
         return new LogoutUserResponse("logout success");
     }

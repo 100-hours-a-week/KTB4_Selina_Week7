@@ -21,6 +21,8 @@ public class User {
     private String nickname;
     private String profileImage;
 
+    private String loginToken;
+
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
 
@@ -36,6 +38,14 @@ public class User {
         this.password = password;
         this.nickname = nickname;
         this.profileImage = profileImage;
+    }
+
+    public void login(String loginToken) {
+        this.loginToken = loginToken;
+    }
+
+    public void logout() {
+        this.loginToken = null;
     }
 
     public void changePassword(String password) {

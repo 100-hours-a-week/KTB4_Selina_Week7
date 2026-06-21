@@ -2,6 +2,7 @@ package io.github.ysbunny.community.service;
 
 import io.github.ysbunny.community.dto.comment.CreateCommentRequest;
 import io.github.ysbunny.community.dto.comment.CreateCommentResponse;
+import io.github.ysbunny.community.dto.comment.DeleteCommentResponse;
 import io.github.ysbunny.community.entity.Comment;
 import io.github.ysbunny.community.entity.Post;
 import io.github.ysbunny.community.entity.User;
@@ -43,5 +44,24 @@ public class CommentService {
         Comment savedComment = commentRepository.save(comment);
 
         return new CreateCommentResponse(savedComment.getId());
+    }
+
+    @Transactional
+    public DeleteCommentResponse deleteComment(String loginToken, Long postId, Long commentId) {
+        User user = userRepository.findByLoginToken(loginToken)
+                .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));
+
+        postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post does not exist"));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("comment does not exist"));
+
+        if (user != comment.getAuthor()) {
+            throw new IllegalArgumentException("unauthorized user");
+        }
+
+        commentRepository.deleteById(commentId);
+
+        return new DeleteCommentResponse("delete_success");
     }
 }

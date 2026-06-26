@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 2. 게시글마다 이벤트 리스너 등록
     posts.forEach(function (post) {
-        post.addEventListener("click", () => {
-            // 3. html의 data-post-id="1"을 요소.dataset.postId로 가져옴
-            const postId = post.dataset.postId;
+        post.addEventListener("click", (event) => {
+            // 3. event.currentTarget으로 클릭된 게시글을 가져오고, 해당 게시글의 postId도 가져옴
+            const postId = event.currentTarget.dataset.postId;
 
             // 4. 가져온 postId를 post-detail.html로 넘김
             window.location.href = `./post-detail.html?postId=${postId}`;

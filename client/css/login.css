@@ -22,9 +22,12 @@
 
 .main {
   width: var(--page-width);
+  min-height: calc(100vh - var(--header-height));
   margin: 0 auto;
-  padding-top: 260px;
-  padding-bottom: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-section {

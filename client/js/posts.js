@@ -13,4 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = `./post-detail.html?postId=${postId}`;
         });
     });
+
+    // 1. html의 id="writePostButton"인 게시글 요소 가져옴
+    const writePostButton = document.querySelector("#writePostButton");
+
+    // 2. 버튼에 이벤트 리스너 등록
+    writePostButton.addEventListener("click", (event) => {
+        // 3. 게시글 작성 페이지로 넘어감
+        window.location.href = `./post-form.html`;
+    })
 });

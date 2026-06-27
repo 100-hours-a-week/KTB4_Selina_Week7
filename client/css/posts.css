@@ -79,12 +79,15 @@
   align-items: center;
   justify-content: center;
 
+  border: none;
   border-radius: 16px;
   background-color: var(--color-primary);
   color: var(--color-white);
 
   font-size: 14px;
   font-weight: 700;
+
+  cursor: pointer;
 }
 
 .write-button:hover {

@@ -16,7 +16,9 @@ header,
 main,
 time,
 span,
-img {
+img,
+textarea,
+strong {
   margin: 0;
   padding: 0;
 }
@@ -35,6 +37,16 @@ button {
   background: none;
   cursor: pointer;
   font: inherit;
+}
+
+textarea {
+  font: inherit;
+  border: none;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
 }
 
 img {

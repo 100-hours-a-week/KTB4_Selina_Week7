@@ -51,4 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
+
+    // 1. 회원가입 버튼 가져옴
+    const signupButton = document.querySelector("#signupButton");
+
+    signupButton.addEventListener("click", function () {
+        // 2. 회원가입 페이지로 이동
+        window.location.href = `./signup.html`;
+    });
 });

@@ -20,14 +20,16 @@
           <img src="./assets/images/profile.png" alt="프로필 이미지" />
         </button>
 
-        <nav class="profile-dropdown" id="profileDropdown">
-          <button type="button" class="profile-dropdown__item">
+        <nav class="profile-dropdown is-hidden" id="profileDropdown">
+          <button type="button" class="profile-dropdown__item" id="profileEditButton">
             회원정보수정
           </button>
-          <button type="button" class="profile-dropdown__item">
+
+          <button type="button" class="profile-dropdown__item" id="passwordEditButton">
             비밀번호수정
           </button>
-          <button type="button" class="profile-dropdown__item">
+
+          <button type="button" class="profile-dropdown__item" id="logoutButton">
             로그아웃
           </button>
         </nav>

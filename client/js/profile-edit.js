@@ -1,5 +1,22 @@
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", function () {
+    // 1. 프로필 메뉴, 드롭다운 가져옴
+    const profileMenuButton = document.querySelector("#profileMenuButton");
+    const profileDropdown = document.querySelector("#profileDropdown");
+
+    // 2. 프로필 메뉴 누르면 드롭다운 보이게
+    profileMenuButton.addEventListener("click", () => {
+        profileDropdown.classList.toggle("is-hidden");
+    });
+
+    // 3. 드롭다운의 회원정보 수정 버튼 가져옴
+    const profileEditButton = document.querySelector("#profileEditButton");
+
+    // 4. 드롭다운 회원정보 수정 버튼 누르면 다시 회원정보 수정 페이지 로드
+    profileDropdown.addEventListener("click", () => {
+        window.location.href = `./profile-edit.html`;
+    });
+
     // 1. 프로필 수정 폼 가져옴
     const profileEditForm = document.querySelector("#profileEditForm");
 

@@ -50,13 +50,22 @@
 }
 
 .profile-dropdown {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+
   width: 116px;
-  margin-top: 12px;
 
   display: flex;
   flex-direction: column;
 
   background-color: #d9d9d9;
+  z-index: 100;
+}
+
+.profile-dropdown.is-hidden {
+  display: none;
 }
 
 .profile-dropdown__item {

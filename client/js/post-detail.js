@@ -21,24 +21,30 @@ document.addEventListener("DOMContentLoaded", function () {
         // 3. 삭제 모달창 가져옴
         const deletePostModal = document.querySelector("#deletePostModal");
 
-        // 4. 삭제 모달창의 is-hidden 클래스 제거
+        // 4. 삭제 모달창 띄우고 배경 스크롤 불가능
         deletePostModal.classList.remove("is-hidden");
+        document.body.classList.add("modal-open");
 
         // 5. 삭제 모달창의 취소, 확인 버튼 가져옴
         const cancelDeleteButton = document.querySelector("#cancelDeleteButton");
         const confirmDeleteButton = document.querySelector("#confirmDeleteButton");
 
-        // 6. 취소 버튼 누르면 모달창 사라짐
+        // 6. 취소 버튼 누르면 모달창 숨기고 배경 스크롤 가능
         cancelDeleteButton.addEventListener("click", () => {
             deletePostModal.classList.add("is-hidden");
+            document.body.classList.remove("modal-open");
         });
 
         // 6. 삭제 버튼 누르면 게시글 삭제하고 게시글 목록으로 돌아감
         confirmDeleteButton.addEventListener("click", (event) => {
             // 게시글 삭제 처리 구현
 
-            // 다시 모달창 숨기고 게시글 목록으로 돌아감
+            // 7. 다시 모달창 숨기고 배경 스크롤 가능
             deletePostModal.classList.add("is-hidden");
+            document.body.classList.remove("modal-open");
+
+
+            // 8. 게시글 목록으로 돌아감
             window.location.href = `./posts.html`;
         });
     });

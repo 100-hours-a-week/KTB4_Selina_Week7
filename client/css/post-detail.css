@@ -278,11 +278,17 @@
   align-items: center;
   justify-content: center;
 
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(0, 0, 0, 0.5);
+
+  pointer-events: auto;
 }
 
 .modal-overlay.is-hidden {
   display: none;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 .modal {

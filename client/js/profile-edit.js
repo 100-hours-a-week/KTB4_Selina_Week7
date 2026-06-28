@@ -13,8 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const profileEditButton = document.querySelector("#profileEditButton");
 
     // 4. 드롭다운 회원정보 수정 버튼 누르면 다시 회원정보 수정 페이지 로드
-    profileDropdown.addEventListener("click", () => {
+    profileEditButton.addEventListener("click", () => {
         window.location.href = `./profile-edit.html`;
+    });
+
+    // 3. 드롭다운의 비밀번호 수정 버튼 가져옴
+    const passwordEditButton = document.querySelector("#passwordEditButton");
+
+    // 4. 드롭다운 비밀번호 수정 버튼 누르면 비밀번호 수정 페이지로 이동
+    passwordEditButton.addEventListener("click", () => {
+        window.location.href = `./password-edit.html`;
     });
 
     // 1. 프로필 수정 폼 가져옴

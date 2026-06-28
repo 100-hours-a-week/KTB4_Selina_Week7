@@ -48,4 +48,19 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = `./posts.html`;
         });
     });
+
+    // 1. 댓글 값, 댓글 등록 버튼 가져옴
+    const commentInput = document.querySelector("#commentInput");
+    const commentSubmitButton = document.querySelector("#commentSubmitButton");
+
+    // 2. 댓글 값이 없으면 댓글 등록 버튼 비활성화, 값이 있으면 활성화
+    commentInput.addEventListener("input", function () {
+        const comment = commentInput.value.trim();
+
+        if (comment === "") {
+            commentSubmitButton.disabled = true;
+        } else {
+            commentSubmitButton.disabled = false;
+        }
+  });
 });

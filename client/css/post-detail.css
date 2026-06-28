@@ -227,11 +227,22 @@
   height: 36px;
 
   border-radius: 16px;
-  background-color: #aca0eb;
+  background-color: #7f6aee;
   color: #ffffff;
 
   font-size: 14px;
   font-weight: 700;
+
+  cursor: pointer;
+}
+
+.comment-submit-button:disabled {
+  background-color: #aca0eb;
+  cursor: default;
+}
+
+.comment-submit-button:hover:not(:disabled) {
+  background-color: #7f6aee;
 }
 
 .comment-submit-button:hover {

@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
             deletePostModal.classList.add("is-hidden");
             document.body.classList.remove("modal-open");
 
-
             // 8. 게시글 목록으로 돌아감
             window.location.href = `./posts.html`;
         });
@@ -82,6 +81,40 @@ document.addEventListener("DOMContentLoaded", function () {
             // 6. 댓글 등록 버튼을 댓글 수정으로 바꾸고 활성화
             commentSubmitButton.textContent = "댓글 수정";
             commentSubmitButton.disabled = "false";
+        });
+    });
+
+    // 2. 각 댓글의 삭제 버튼에 이벤트 리스너 등록
+    commentDeleteButtons.forEach(function (commentDeleteButton) {
+        commentDeleteButton.addEventListener("click", function () {
+            // 3. 삭제 모달창 가져옴
+            const deleteCommentModal = document.querySelector("#deleteCommentModal");
+
+            // 4. 삭제 모달창 띄우고 배경 스크롤 불가능
+            deleteCommentModal.classList.remove("is-hidden");
+            document.body.classList.add("modal-open");
+
+            // 5. 삭제 모달창의 취소, 확인 버튼 가져옴
+            const cancelDeleteCommentButton = document.querySelector("#cancelDeleteCommentButton");
+            const confirmDeleteCommentButton = document.querySelector("#confirmDeleteCommentButton");
+
+            // 6. 취소 버튼 누르면 모달창 숨기고 배경 스크롤 가능
+            cancelDeleteCommentButton.addEventListener("click", () => {
+                deleteCommentModal.classList.add("is-hidden");
+                document.body.classList.remove("modal-open");
+            });
+
+            // 6. 삭제 버튼 누르면 댓글 삭제하고 게시글로 돌아감
+            confirmDeleteCommentButton.addEventListener("click", (event) => {
+                // 댓글 삭제 처리 구현
+
+                // 7. 다시 모달창 숨기고 배경 스크롤 가능
+                deleteCommentModal.classList.add("is-hidden");
+                document.body.classList.remove("modal-open");
+
+                // 8. 해당 페이지 새로고침
+                window.location.reload();
+            });
         });
     });
 });

@@ -195,6 +195,41 @@
     </section>
   </div>
 
+  <div class="modal-overlay is-hidden" id="deleteCommentModal">
+    <section
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="deleteCommentModalTitle"
+    >
+      <h2 class="modal__title" id="deleteCommentModalTitle">
+        댓글을 삭제하시겠습니까?
+      </h2>
+
+      <p class="modal__description">
+        삭제한 내용은 복구 할 수 없습니다.
+      </p>
+
+      <div class="modal__actions">
+        <button
+          type="button"
+          class="modal__button modal__button--cancel"
+          id="cancelDeleteCommentButton"
+        >
+          취소
+        </button>
+
+        <button
+          type="button"
+          class="modal__button modal__button--confirm"
+          id="confirmDeleteCommentButton"
+        >
+          확인
+        </button>
+      </div>
+    </section>
+  </div>
+
   <script src="./js/post-detail.js"></script>
 </body>
 </html>

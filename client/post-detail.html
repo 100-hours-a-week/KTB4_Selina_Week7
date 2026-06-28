@@ -76,16 +76,16 @@
     </article>
 
     <section class="comment-section">
-      <form class="comment-form" id="commentForm">
-        <textarea 
+      <form class="comment-form" id="commentForm" data-mode="create">
+        <textarea
           id="commentInput"
           name="comment"
           placeholder="댓글을 남겨주세요!"
         ></textarea>
 
         <div class="comment-form-footer">
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             class="comment-submit-button"
             id="commentSubmitButton"
             disabled
@@ -96,7 +96,7 @@
       </form>
 
       <div class="comment-list" id="commentList">
-        <article class="comment-item">
+        <article class="comment-item" data-comment-id="1">
           <div class="comment-header">
             <div class="author-info">
               <div class="author-profile"></div>
@@ -107,15 +107,19 @@
             </div>
 
             <div class="comment-actions">
-              <button type="button" class="small-button">수정</button>
-              <button type="button" class="small-button">삭제</button>
+              <button type="button" class="small-button comment-edit-button">
+                수정
+              </button>
+              <button type="button" class="small-button comment-delete-button">
+                삭제
+              </button>
             </div>
           </div>
 
           <p class="comment-content">댓글 내용</p>
         </article>
 
-        <article class="comment-item">
+        <article class="comment-item" data-comment-id="2">
           <div class="comment-header">
             <div class="author-info">
               <div class="author-profile"></div>
@@ -126,15 +130,19 @@
             </div>
 
             <div class="comment-actions">
-              <button type="button" class="small-button">수정</button>
-              <button type="button" class="small-button">삭제</button>
+              <button type="button" class="small-button comment-edit-button">
+                수정
+              </button>
+              <button type="button" class="small-button comment-delete-button">
+                삭제
+              </button>
             </div>
           </div>
 
           <p class="comment-content">댓글 내용</p>
         </article>
 
-        <article class="comment-item">
+        <article class="comment-item" data-comment-id="3">
           <div class="comment-header">
             <div class="author-info">
               <div class="author-profile"></div>
@@ -145,8 +153,12 @@
             </div>
 
             <div class="comment-actions">
-              <button type="button" class="small-button">수정</button>
-              <button type="button" class="small-button">삭제</button>
+              <button type="button" class="small-button comment-edit-button">
+                수정
+              </button>
+              <button type="button" class="small-button comment-delete-button">
+                삭제
+              </button>
             </div>
           </div>
 

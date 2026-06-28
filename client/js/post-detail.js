@@ -62,5 +62,26 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             commentSubmitButton.disabled = false;
         }
-  });
+    });
+
+    // 1. 댓글 수정, 삭제 버튼 가져옴
+    const commentEditButtons = document.querySelectorAll(".comment-edit-button");
+    const commentDeleteButtons = document.querySelectorAll(".comment-delete-button");
+
+    // 2. 각 댓글의 수정 버튼에 이벤트 리스너 등록
+    commentEditButtons.forEach(function (commentEditButton) {
+        commentEditButton.addEventListener("click", function (event) {
+            // 3. 클릭한 버튼과 가장 가까운 .comment-item을 가져옴
+            const commentItem = event.target.closest(".comment-item");
+            // 4. commentItem의 댓글 내용을 가져옴
+            const commentContent = commentItem.querySelector(".comment-content");
+
+            // 5. 댓글 입력창에 수정할 댓글의 내용을 올림
+            commentInput.value = commentContent.textContent;
+
+            // 6. 댓글 등록 버튼을 댓글 수정으로 바꾸고 활성화
+            commentSubmitButton.textContent = "댓글 수정";
+            commentSubmitButton.disabled = "false";
+        });
+    });
 });

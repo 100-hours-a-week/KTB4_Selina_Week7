@@ -41,14 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // 비밀번호 검증 로직
         });
 
-        // 6. 이메일, 비밀번호 둘 다 입력되면 로그인에 이벤트 리스너 등록
+        // 6. 이메일, 비밀번호 둘 다 입력됐으면 로그인 가능
         if (!(email === "" || password === "")) {
-            const loginButton = document.querySelector("#loginButton");
-
-            loginButton.addEventListener("click", () => {
-                // 7. 게시글 목록 페이지로 이동
-                window.location.href = `./posts.html`;
-            });
+            // 7. 게시글 목록 페이지로 이동
+            window.location.href = `./posts.html`;
         }
     });
 

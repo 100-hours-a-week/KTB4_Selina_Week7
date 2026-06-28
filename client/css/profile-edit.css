@@ -291,6 +291,10 @@
   font-weight: 400;
 }
 
+.toast.is-hidden {
+  display: none;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;

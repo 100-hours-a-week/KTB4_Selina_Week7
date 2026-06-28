@@ -38,14 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
             
         });
         
-        // 3. 이메일, 비밀번호, 비밀번호 확인, 닉네임 입력되면 회원가입에 이벤트 리스너 등록
+        // 3. 이메일, 비밀번호, 비밀번호 확인, 닉네임 모두 입력됐으면 로그인 가능
         if (!(email === "" || password === "" || passwordConfirm === "" || nickname === "")) {
-            const signupButton = document.querySelector("#signupButton");
-
-            signupButton.addEventListener("click", () => {
-                // 4. 로그인 페이지로 이동
-                window.location.href = `./login.html`;
-            });
+            // 4. 로그인 페이지로 이동
+            window.location.href = `./login.html`;
         }
     });
     

@@ -47,13 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = `./login.html`;
             });
         }
+    });
+    
+    // 1. 로그인하러 가기 버튼 가져옴
+    const loginButton = document.querySelector("#loginButton");
 
-        // 1. 로그인하러 가기 버튼 가져옴
-        const loginButton = document.querySelector("#loginButton");
-
-        // 2. 로그인하러 가기 버튼 클릭하면 로그인 페이지로 이동
-        loginButton.addEventListener("click", () => {
-            window.location.href = `./login.html`;
-        });
+    // 2. 로그인하러 가기 버튼 클릭하면 로그인 페이지로 이동
+    loginButton.addEventListener("click", () => {
+        window.location.href = `./login.html`;
     });
 });

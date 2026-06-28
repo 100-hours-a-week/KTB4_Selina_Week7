@@ -100,6 +100,33 @@
     </section>
   </main>
 
+	<div class="modal-overlay is-hidden" id="withdrawModal">
+		<section
+			class="modal"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="withdrawModalTitle"
+		>
+			<h2 class="modal__title" id="withdrawModalTitle">
+				회원탈퇴 하시겠습니까?
+			</h2>
+
+			<p class="modal__description">
+				작성된 게시글과 댓글은 삭제됩니다.
+			</p>
+
+			<div class="modal__actions">
+				<button type="button" class="modal__button modal__button--cancel" id="cancelWithdrawButton">
+					취소
+				</button>
+
+				<button type="button" class="modal__button modal__button--confirm" id="confirmWithdrawButton">
+					확인
+				</button>
+			</div>
+		</section>
+	</div>
+	
   <script src="./js/profile-edit.js"></script>
 </body>
 </html>

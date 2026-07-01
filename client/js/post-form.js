@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 해당 게시글 데이터 불러오는 로직 나중에 추가
     }
 
-    // 1. 게시글 폼, 제목, 내용, 안내 문구 가져옴
+    // 1. 게시글 폼, 제목 폼, 내용 폼, 안내 문구 가져옴
     const postForm = document.querySelector("#postForm");
     const titleInput = document.querySelector("#title");
     const contentInput = document.querySelector("#content");
@@ -29,23 +29,41 @@ document.addEventListener("DOMContentLoaded", function () {
         // 2. 게시글 작성 폼 제출 기본 동작 막음
         event.preventDefault();
 
+        // 3. 제목 값, 내용 값 가져옴
         const title = titleInput.value.trim();
         const content = contentInput.value.trim();
 
-        // 3. 안내 문구가 처음에는 없고 제목이나 내용 값이 비면 생김
-        helperText.textContent = "";
+        console.log(title, content);
 
-        if (title === "" || content === "") {
-            helperText.textContent = "* 제목, 내용을 모두 작성해주세요.";
-
-            // 4. 게시글 작성 막음
-            return;
+        // 4. 제목, 내용 모두 입력되어서 폼 제출 가능
+        if (title !== "" && content !== "") {
+            // 해당 게시글 데이터 업데이트 로직 나중에 추가
         }
+    });
 
-        console.log("게시글 작성 가능");
-        console.log("제목:", title);
-        console.log("내용:", content);
-        
-        // 해당 게시글 데이터 업데이트 로직 나중에 추가
+    titleInput.addEventListener("input", () => {
+        // 2. 제목 값, 내용 값 가져옴
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+
+        // 3. 제목과 내용 모두 작성 되었으면 제출 버튼 보이게, 하나라도 작성 안 되어있으면 제출 버튼 안 보이게 함
+        if (title !== "" && content !== "") {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    });
+
+    contentInput.addEventListener("input", () => {
+        // 2. 제목 값, 내용 값 가져옴
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+
+        // 3. 제목과 내용 모두 작성 되었으면 제출 버튼 보이게, 하나라도 작성 안 되어있으면 제출 버튼 안 보이게 함
+        if (title !== "" && content !== "") {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
     });
 });

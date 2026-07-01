@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentInput = document.querySelector("#content");
     const helperText = document.querySelector("#helperText");
 
+    // 입력 폼이 포커스 되었었는지
+    let isTitleFocused = false;
+    let isContentFocused = false;
+
     postForm.addEventListener("submit", (event) => {
         // 2. 게시글 작성 폼 제출 기본 동작 막음
         event.preventDefault();
@@ -41,29 +45,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    titleInput.addEventListener("input", () => {
+    function checkPostForm() {
         // 2. 제목 값, 내용 값 가져옴
         const title = titleInput.value.trim();
         const content = contentInput.value.trim();
 
-        // 3. 제목과 내용 모두 작성 되었으면 제출 버튼 보이게, 하나라도 작성 안 되어있으면 제출 버튼 안 보이게 함
+        // 3. 제목 폼, 내용 폼이 모두 입력되었었는데 둘 중 하나라도 값이 비면 안내 문구 띄움
+        if (isTitleFocused && isContentFocused && (title === "" || content === "")) {
+            helperText.textContent = "* 제목, 내용을 모두 작성해주세요.";
+        }
+
+        // 4. 제목과 내용 모두 작성 되었으면 제출 버튼 보이게, 하나라도 작성 안 되어있으면 제출 버튼 안 보이게 함
         if (title !== "" && content !== "") {
+            helperText.textContent = "";
             submitButton.disabled = false;
         } else {
             submitButton.disabled = true;
         }
+    }
+
+    titleInput.addEventListener("input", () => {
+        // 제목 폼이 최소 한 번 입력됨
+        isTitleFocused = true;
+
+        checkPostForm()
     });
 
     contentInput.addEventListener("input", () => {
-        // 2. 제목 값, 내용 값 가져옴
-        const title = titleInput.value.trim();
-        const content = contentInput.value.trim();
-
-        // 3. 제목과 내용 모두 작성 되었으면 제출 버튼 보이게, 하나라도 작성 안 되어있으면 제출 버튼 안 보이게 함
-        if (title !== "" && content !== "") {
-            submitButton.disabled = false;
-        } else {
-            submitButton.disabled = true;
-        }
+        // 내용 폼이 최소 한 번 입력됨
+        isContentFocused = true;
+        
+        checkPostForm()
     });
 });

@@ -185,30 +185,31 @@
 }
 
 .form-fields {
-  width: 100%;
+  width: 392px;
+  margin: 0 auto;
 }
 
 .form-group {
   width: 100%;
-  margin-bottom: 12px;
-}
-
-.form-group--email {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 
   font-size: 15px;
   font-weight: 700;
 }
 
 .email-text {
+  height: 33px;
+
+  display: flex;
+  align-items: center;
+
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.4;
 }
 
 .form-input {
@@ -223,33 +224,36 @@
   color: #000000;
 
   font-size: 14px;
-  font-weight: 400;
+}
+
+.form-input::placeholder {
+  color: #838486;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: #7f6aee;
 }
 
 .helper-text {
-  min-height: 16px;
+  min-height: 18px;
   margin-top: 4px;
 
   color: #ff0000;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 18px;
 }
 
 .submit-button {
   width: 100%;
   height: 38px;
-  margin-top: 4px;
+  margin-top: 16px;
 
   border: none;
   border-radius: 4px;
 
-  background-color: var(--color-primary);
+  background-color: #7f6aee;
   color: #ffffff;
 
   font-size: 14px;
@@ -258,8 +262,13 @@
   cursor: pointer;
 }
 
-.submit-button:hover {
-  background-color: var(--color-primary-hover);
+.submit-button:disabled {
+  background-color: #aca0eb;
+  cursor: default;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #7f6aee;
 }
 
 .withdraw-button {

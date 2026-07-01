@@ -25,27 +25,19 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = `./password-edit.html`;
     });
 
-    // 1. 프로필 수정 폼 가져옴
+    // 1. 프로필 수정 폼, 프로필 프리뷰, 프로필 이미지, 닉네임, 안내 문구, 수정하기 버튼 가져옴
     const profileEditForm = document.querySelector("#profileEditForm");
+    const profilePreview = document.querySelector("#profilePreview");
+    const profileImage = document.querySelector("#profileImage");
+    const nicknameInput = document.querySelector("#nickname");
+    const nicknameHelperText = document.querySelector("#nicknameHelperText");
+    const editButton = document.querySelector("#editButton");
 
     profileEditForm.addEventListener("submit", function (event) {
         // 2. 회원정보 수정 폼 제출 기본 동작 막음
         event.preventDefault();
     
-        // 1. 프로필 프리뷰, 프로필 이미지, 닉네임 가져옴
-        const profilePreview = document.querySelector("#profilePreview");
-        const profileImage = document.querySelector("#profileImage");
-        const nicknameInput = document.querySelector("#nickname");
-
-        const nickname = nicknameInput.value.trim();
-
-        // 2. 프로필 이미지 값이 바뀌면 프로필 프리뷰도 바뀜 구현
-
-
-        // 2. 닉네임 값 입력할 때마다 검사
-        nicknameInput.addEventListener("input", () => {
-            
-        });
+        // 프로필 이미지 값이 바뀌면 프로필 프리뷰도 바뀜 구현
 
         // 3. 닉네임 입력됐으면 회원정보 수정 가능
         if (!(nickname === "")) {
@@ -57,6 +49,20 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 editCompleteToast.classList.add("is-hidden");
             }, 2000);
+        }
+    });
+
+    nicknameInput.addEventListener("input", () => {
+        // 2. 닉네임 값 가져옴
+        const nickname = nicknameInput.value.trim();
+
+        // 3. 닉네임 값 여부에 따라 안내 문구와 수정하기 버튼 활성화 여부 결정
+        if (nickname === "") {
+            nicknameHelperText.textContent = "* 닉네임을 입력해주세요.";
+            editButton.disabled = true;
+        } else {
+            nicknameHelperText.textContent = "";
+            editButton.disabled = false;
         }
     });
 

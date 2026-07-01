@@ -43,7 +43,7 @@
 
       <form id="profileEditForm" class="profile-edit-form">
         <div class="profile-image-section">
-          <label class="profile-image-label">프로필 사진*</label>
+          <label class="profile-image-label">프로필 사진</label>
 
           <div class="profile-image-wrapper">
             <img
@@ -75,18 +75,24 @@
 
           <div class="form-group">
             <label for="nickname" class="form-label">닉네임</label>
+
             <input
               type="text"
               id="nickname"
               name="nickname"
               class="form-input"
-              value="스타트업코드"
+              placeholder="닉네임을 입력하세요"
             />
 
-            <p class="helper-text" id="nicknameHelperText">* helper text</p>
+            <p class="helper-text" id="nicknameHelperText"></p>
           </div>
 
-          <button type="submit" class="submit-button" id="submitButton">
+          <button
+            type="submit"
+            class="submit-button"
+            id="editButton"
+            disabled
+          >
             수정하기
           </button>
         </div>

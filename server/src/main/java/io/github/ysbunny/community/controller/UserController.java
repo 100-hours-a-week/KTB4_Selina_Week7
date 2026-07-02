@@ -8,18 +8,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/sign-up")
+    @PostMapping
     public CreateUserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
         User saved = userService.createUser(request);
         return new CreateUserResponse(saved.getId());
     }
 
-    @PostMapping("/log-in")
+    @PostMapping("/login")
     public LoginUserResponse logIn(@Valid @RequestBody LoginUserRequest request) {
         return userService.login(request);
     }
@@ -37,7 +37,7 @@ public class UserController {
         return new UpdateUserResponse(updated.getNickname(), updated.getProfileImage());
     }
 
-    @PostMapping("/log-out")
+    @PostMapping("/logout")
     public LogoutUserResponse logout(@Valid @RequestBody LogoutUserRequest request) {
         return userService.logout(request);
     }

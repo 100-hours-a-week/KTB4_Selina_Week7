@@ -6,6 +6,7 @@ const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
 const passwordConfirmInput = document.querySelector("#passwordConfirm");
 const nicknameInput = document.querySelector("#nickname");
+const profileImage = document.querySelector("#profileImage");
 
 const emailHelperText = document.querySelector("#emailHelperText");
 const passwordHelperText = document.querySelector("#passwordHelperText");
@@ -24,11 +25,9 @@ signupForm.addEventListener("submit", async function (event) {
         passwordConfirm: passwordConfirmInput.value.trim(),
         nickname: nicknameInput.value.trim()
     }
-    // const email = emailInput.value.trim();
-    // const password = passwordInput.value.trim();
-    // const passwordConfirm = passwordConfirmInput.value.trim();
-    // const nickname = nicknameInput.value.trim();
 
+    console.log("회원가입 요청 데이터:", userData);
+    
     // 3. 이메일, 비밀번호, 비밀번호 확인, 닉네임 모두 입력됐으면 로그인 가능
     if (!(userData.email === "" || userData.password === ""
         || userData.passwordConfirm === "" || userData.nickname === "")) {

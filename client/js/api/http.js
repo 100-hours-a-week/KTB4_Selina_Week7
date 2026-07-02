@@ -10,7 +10,13 @@ export async function request(url, options = {}) {  // options = {}는 method, b
     });
 
     if (!response.ok) {
-        throw new Error("API 요청에 실패했습니다.");
+        const errorText = await response.text();
+
+        console.error("API 요청 실패");
+        console.error("상태 코드:", response.status);
+        console.error("응답 내용:", errorText);
+
+        throw new Error(errorText || "API 요청에 실패했습니다.");
     }
 
     if (response.status === 204) {

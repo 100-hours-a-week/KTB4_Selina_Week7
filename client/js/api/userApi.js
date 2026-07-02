@@ -1,4 +1,4 @@
-import { request } from "./http";
+import { request } from "./http.js";
 
 // 회원가입
 export function signup(userData) {

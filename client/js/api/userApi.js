@@ -1,0 +1,44 @@
+import { request } from "./http";
+
+// 회원가입
+export function signup(userData) {
+    return request("/users", {
+        method: "POST",
+        body: JSON.stringify(userData)
+    });
+}
+
+// 로그인
+export function login(userData) {
+    return request("/users/login", {
+        method: "POST",
+        body: JSON.stringify(userData)
+    });
+}
+
+// 회원정보 수정
+export function updateUser(userId, userData) {
+    return request(`/users/${userId}`, {
+        method: "PATCH",
+        body: JSON.stringify(userData)
+    });
+}
+
+// 비밀번호 수정
+// export function updatePassword(userId, userData) {
+//     return request(`/users/${userId}`)
+// }
+
+// 로그아웃
+export function logout(userId) {
+    return request(`/users/logout`, {
+        method: "POST"
+    });
+}
+
+// 회원탈퇴
+export function deleteUser(userId) {
+    return request(`/users/${userId}`, {
+        method: "DELETE"
+    });
+}

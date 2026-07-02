@@ -22,8 +22,8 @@ signupForm.addEventListener("submit", async function (event) {
     const userData = {
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
-        passwordConfirm: passwordConfirmInput.value.trim(),
-        nickname: nicknameInput.value.trim()
+        nickname: nicknameInput.value.trim(),
+        profileImage: profileImage.value
     }
 
     console.log("회원가입 요청 데이터:", userData);

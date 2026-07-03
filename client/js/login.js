@@ -28,8 +28,13 @@ loginForm.addEventListener("submit", async (event) => {
             // userData 객체를 백엔드에 보내고 받은 JSON userId와 토큰을 result에 저장
             const result = await login(userData);
 
-            console.log(`userId: ${result.userId}`);
-            console.log(`token: ${result.token}`);
+            console.log("로그인 응답:", result);
+
+            localStorage.setItem("userId", result.userId);
+            localStorage.setItem("loginToken", result.token);
+
+            console.log("저장된 userId:", localStorage.getItem("userId"));
+            console.log("저장된 loginToken:", localStorage.getItem("loginToken"));
 
             window.location.href = `./posts.html`;
         } catch (error) {

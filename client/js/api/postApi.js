@@ -1,4 +1,4 @@
-import { request } from "./http";
+import { request } from "./http.js";
 
 // 게시글 작성
 export function createPost(postData) {

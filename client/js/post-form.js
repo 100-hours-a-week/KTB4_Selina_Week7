@@ -1,3 +1,5 @@
+import { createPost } from "./api/postApi.js";
+
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", function () {
     // 1. URL 파라미터 가져옴
@@ -23,25 +25,34 @@ document.addEventListener("DOMContentLoaded", function () {
     const postForm = document.querySelector("#postForm");
     const titleInput = document.querySelector("#title");
     const contentInput = document.querySelector("#content");
+    const postImage = document.querySelector("#postImage");
     const helperText = document.querySelector("#helperText");
 
     // 입력 폼이 포커스 되었었는지
     let isTitleFocused = false;
     let isContentFocused = false;
 
-    postForm.addEventListener("submit", (event) => {
+    postForm.addEventListener("submit", async (event) => {
         // 2. 게시글 작성 폼 제출 기본 동작 막음
         event.preventDefault();
 
-        // 3. 제목 값, 내용 값 가져옴
-        const title = titleInput.value.trim();
-        const content = contentInput.value.trim();
-
-        console.log(title, content);
+        const postData = {
+            title: titleInput.value.trim(),
+            content: contentInput.value.trim(),
+            postImage: postImage.value
+        };
 
         // 4. 제목, 내용 모두 입력되어서 폼 제출 가능
-        if (title !== "" && content !== "") {
-            // 해당 게시글 데이터 업데이트 로직 나중에 추가
+        if (postData.title !== "" && postData.content !== "") {
+            const result = await createPost(postData);
+
+            console.log(result);
+
+            localStorage.setItem("postId", result.postId);
+            
+            const postId = localStorage.getItem("postId");
+
+            location.href = `./posts.html`;
         }
     });
 

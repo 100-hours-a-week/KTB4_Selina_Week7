@@ -1,4 +1,4 @@
-import { updateUser } from './api/userApi.js';
+import { updateUser, logout } from './api/userApi.js';
 
 const profileMenuButton = document.querySelector("#profileMenuButton");
 const profileDropdown = document.querySelector("#profileDropdown");
@@ -22,6 +22,20 @@ const passwordEditButton = document.querySelector("#passwordEditButton");
 // 4. 드롭다운 비밀번호 수정 버튼 누르면 비밀번호 수정 페이지로 이동
 passwordEditButton.addEventListener("click", () => {
     window.location.href = `./password-edit.html`;
+});
+
+// 3. 드롭다운의 로그아웃 버튼 가져옴
+const logoutButton = document.querySelector("#logoutButton");
+
+// 4. 드롭다운 로그아웃 버튼 누르면 로그아웃 후 로그인 페이지로 이동
+logoutButton.addEventListener("click", async () => {
+    const userData = {
+        token: localStorage.getItem("loginToken")
+    };
+    
+    const result = await logout(userData);
+
+    window.location.href = `./login.html`;
 });
 
 // 1. 프로필 수정 폼, 프로필 프리뷰, 프로필 이미지, 닉네임, 안내 문구, 수정하기 버튼 가져옴

@@ -30,9 +30,10 @@ export function updateUser(userId, userData) {
 // }
 
 // 로그아웃
-export function logout(userId) {
+export function logout(userData) {
     return request(`/users/logout`, {
-        method: "POST"
+        method: "POST",
+        body: JSON.stringify(userData)
     });
 }
 

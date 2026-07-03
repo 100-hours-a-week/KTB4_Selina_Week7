@@ -38,8 +38,9 @@ export function logout(userData) {
 }
 
 // 회원탈퇴
-export function deleteUser(userId) {
+export function deleteUser(userId, userData) {
     return request(`/users/${userId}`, {
-        method: "DELETE"
+        method: "DELETE",
+        body: JSON.stringify(userData)
     });
 }

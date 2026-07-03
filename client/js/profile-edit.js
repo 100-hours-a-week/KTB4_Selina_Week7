@@ -1,4 +1,4 @@
-import { updateUser, logout } from './api/userApi.js';
+import { updateUser, logout, deleteUser } from './api/userApi.js';
 
 const profileMenuButton = document.querySelector("#profileMenuButton");
 const profileDropdown = document.querySelector("#profileDropdown");
@@ -118,11 +118,22 @@ withdrawButton.addEventListener("click", () => {
     });
 
     // 6. 삭제 버튼 누르면 회원 탈퇴하고 로그인 화면으로 돌아감
-    confirmWithdrawButton.addEventListener("click", (event) => {
-        // 회원 탈퇴 처리 구현
+    confirmWithdrawButton.addEventListener("click", async (event) => {
+        const userId = localStorage.getItem("userId");
+        const userData = {
+            token: localStorage.getItem("loginToken")
+        };
 
+        try {
+            const result = await deleteUser(userId, userData);
+
+            console.log(result);
+        } catch (error) {
+            alert(error.message);
+        }
+        
         // 다시 모달창 숨기고 로그인 화면으로 돌아감
         withdrawModal.classList.add("is-hidden");
-        window.location.href = `./login.html`;
+        // window.location.href = `./login.html`;
     });
 });

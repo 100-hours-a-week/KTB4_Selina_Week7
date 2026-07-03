@@ -25,9 +25,12 @@ export function updateUser(userId, userData) {
 }
 
 // 비밀번호 수정
-// export function updatePassword(userId, userData) {
-//     return request(`/users/${userId}`)
-// }
+export function updatePassword(userId, userData) {
+    return request(`/users/${userId}`, {
+        method: "PATCH",
+        body: JSON.stringify(userData)
+    });
+}
 
 // 로그아웃
 export function logout(userData) {

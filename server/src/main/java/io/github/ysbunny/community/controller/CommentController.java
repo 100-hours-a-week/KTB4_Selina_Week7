@@ -1,5 +1,6 @@
 package io.github.ysbunny.community.controller;
 
+import io.github.ysbunny.community.dto.comment.CommentListResponse;
 import io.github.ysbunny.community.dto.comment.CreateCommentRequest;
 import io.github.ysbunny.community.dto.comment.CreateCommentResponse;
 import io.github.ysbunny.community.dto.comment.DeleteCommentResponse;
@@ -24,6 +25,16 @@ public class CommentController {
         String loginToken = authorizationHeader.replace("Bearer ", "");
 
         return commentService.createComment(loginToken, postId, request);
+    }
+
+    @GetMapping
+    public CommentListResponse getComment(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable Long postId
+    ) {
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        return commentService.getCommentList();
     }
 
     @DeleteMapping("/{commentId}")

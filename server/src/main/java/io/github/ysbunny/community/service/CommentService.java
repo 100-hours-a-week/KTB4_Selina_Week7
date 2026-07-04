@@ -1,8 +1,6 @@
 package io.github.ysbunny.community.service;
 
-import io.github.ysbunny.community.dto.comment.CreateCommentRequest;
-import io.github.ysbunny.community.dto.comment.CreateCommentResponse;
-import io.github.ysbunny.community.dto.comment.DeleteCommentResponse;
+import io.github.ysbunny.community.dto.comment.*;
 import io.github.ysbunny.community.entity.Comment;
 import io.github.ysbunny.community.entity.Post;
 import io.github.ysbunny.community.entity.User;
@@ -13,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Validated
@@ -44,6 +45,21 @@ public class CommentService {
         Comment savedComment = commentRepository.save(comment);
 
         return new CreateCommentResponse(savedComment.getId());
+    }
+
+    public CommentListResponse getCommentList() {
+        List<Comment> comments = commentRepository.findAll();
+
+        List<CommentListItemResponse> commentListItemResponses = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            Long commentId = comment.getId();
+            String commentContent = comment.getComment();
+
+            CommentListItemResponse item = new CommentListItemResponse(commentId, commentContent);
+            commentListItemResponses.add(item);
+        }
+        return new CommentListResponse(commentListItemResponses);
     }
 
     @Transactional

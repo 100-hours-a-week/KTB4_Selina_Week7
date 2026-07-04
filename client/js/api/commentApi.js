@@ -1,4 +1,4 @@
-import { request } from "./http";
+import { request } from "./http.js";
 
 // 댓글 등록
 export function createComment(postId, commentData) {

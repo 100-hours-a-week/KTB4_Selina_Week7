@@ -1,4 +1,5 @@
 import { getPost, deletePost } from './api/postApi.js';
+import { createComment } from './api/commentApi.js';
 
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", async function () {
@@ -213,6 +214,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         commentForm.appendChild(commentInput);
         commentForm.appendChild(footer);
+
+        commentForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const commentData = {
+                comment: commentInput.value.trim()
+            };
+            console.log(commentData.comment);
+
+            const result = await createComment(postId, commentData);
+
+            console.log(result);
+
+            window.location.reload();
+        });
 
         // const comments = await getComments();
         const comments = [

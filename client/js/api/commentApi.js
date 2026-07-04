@@ -24,7 +24,7 @@ export function updateComment(postId, commentId, commentData) {
 }
 
 // 댓글 삭제
-export function deleteComment(commentId) {
+export function deleteComment(postId, commentId) {
     return request(`/posts/${postId}/comments/${commentId}`, {
         method: "DELETE"
     });

@@ -1,5 +1,5 @@
 import { getPost, deletePost } from './api/postApi.js';
-import { createComment, getComments } from './api/commentApi.js';
+import { createComment, getComments, deleteComment } from './api/commentApi.js';
 
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", async function () {
@@ -321,8 +321,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
 
                 // 6. 삭제 버튼 누르면 댓글 삭제하고 게시글로 돌아감
-                confirmDeleteCommentButton.addEventListener("click", (event) => {
-                    // 댓글 삭제 처리 구현
+                confirmDeleteCommentButton.addEventListener("click", async (event) => {
+                    // 댓글 삭제
+                    const result = await deleteComment(postId, comment.commentId);
+
+                    console.log(result);
 
                     // 7. 다시 모달창 숨기고 배경 스크롤 가능
                     deleteCommentModal.classList.add("is-hidden");

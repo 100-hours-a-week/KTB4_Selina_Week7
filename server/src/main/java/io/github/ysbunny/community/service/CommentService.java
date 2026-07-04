@@ -47,8 +47,11 @@ public class CommentService {
         return new CreateCommentResponse(savedComment.getId());
     }
 
-    public CommentListResponse getCommentList() {
-        List<Comment> comments = commentRepository.findAll();
+    public CommentListResponse getCommentList(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("post does not exist"));
+
+        List<Comment> comments = post.getComments();
 
         List<CommentListItemResponse> commentListItemResponses = new ArrayList<>();
 

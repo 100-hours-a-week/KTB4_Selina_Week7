@@ -28,13 +28,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public CommentListResponse getComments(
-            @RequestHeader("Authorization") String authorizationHeader,
-            @PathVariable Long postId
-    ) {
-        String loginToken = authorizationHeader.replace("Bearer ", "");
-
-        return commentService.getCommentList();
+    public CommentListResponse getCommentList(@PathVariable Long postId) {
+        return commentService.getCommentList(postId);
     }
 
     @DeleteMapping("/{commentId}")

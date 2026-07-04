@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             const postId = localStorage.getItem("postId");
 
-            location.href = `./posts.html`;
+            window.location.href = `./post-detail.html?postId=${postId}`;
         }
     });
 

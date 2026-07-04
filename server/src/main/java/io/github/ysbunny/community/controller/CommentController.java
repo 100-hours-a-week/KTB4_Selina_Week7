@@ -28,7 +28,7 @@ public class CommentController {
     }
 
     @GetMapping
-    public CommentListResponse getComment(
+    public CommentListResponse getComments(
             @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable Long postId
     ) {

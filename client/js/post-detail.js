@@ -1,4 +1,4 @@
-import { getPost } from './api/postApi.js';
+import { getPost, deletePost } from './api/postApi.js';
 
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", async function () {
@@ -88,7 +88,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // 6. 삭제 버튼 누르면 게시글 삭제하고 게시글 목록으로 돌아감
             confirmDeleteButton.addEventListener("click", (event) => {
-                // 게시글 삭제 처리 구현
+                // 게시글 삭제
+                const result = deletePost(postId);
+
+                console.log(result);
 
                 // 7. 다시 모달창 숨기고 배경 스크롤 가능
                 deletePostModal.classList.add("is-hidden");

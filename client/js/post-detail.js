@@ -1,120 +1,358 @@
+import { getPost } from './api/postApi.js';
+
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
-document.addEventListener("DOMContentLoaded", function () {
-    // 1. 게시글 수정, 삭제 버튼 가져옴
-    const editPostButton = document.querySelector("#editPostButton");
-    const deletePostButton = document.querySelector("#deletePostButton");
+document.addEventListener("DOMContentLoaded", async function () {
+    // 1. URL 파라미터 가져옴
+    const params = new URLSearchParams(window.location.search);
 
-    // 2. 수정 버튼에 이벤트 리스너 등록
-    editPostButton.addEventListener("click", (event) => {
-        // 3. URL 파라미터 가져옴
-        const params = new URLSearchParams(window.location.search);
+    // 2. postId 값 가져옴
+    const postId = params.get("postId");
 
-        // 4. postID 값 가져옴
-        const postId = params.get("postId");
+    const main = document.querySelector(".main");
 
-        // 5. 게시글 작성 페이지 수정 모드로 postId와 이동
-        window.location.href = `./post-form.html?postId=${postId}&mode=edit`;
-    });
+    try {
+        const post = await getPost(postId);
 
-    // 2. 삭제 버튼에 이벤트 리스너 등록
-    deletePostButton.addEventListener("click", () => {
-        // 3. 삭제 모달창 가져옴
-        const deletePostModal = document.querySelector("#deletePostModal");
+        console.log(post);
 
-        // 4. 삭제 모달창 띄우고 배경 스크롤 불가능
-        deletePostModal.classList.remove("is-hidden");
-        document.body.classList.add("modal-open");
+        const article = document.createElement("article");
+        article.classList.add("post-detail");
 
-        // 5. 삭제 모달창의 취소, 확인 버튼 가져옴
-        const cancelDeleteButton = document.querySelector("#cancelDeleteButton");
-        const confirmDeleteButton = document.querySelector("#confirmDeleteButton");
+        const header = document.createElement("section");
+        header.classList.add("post-header");
 
-        // 6. 취소 버튼 누르면 모달창 숨기고 배경 스크롤 가능
-        cancelDeleteButton.addEventListener("click", () => {
-            deletePostModal.classList.add("is-hidden");
-            document.body.classList.remove("modal-open");
+        const title = document.createElement("h2");
+        title.classList.add("post-title");
+        title.id = "postTitle";
+        title.textContent = post.title;
+
+        const postInfoRow = document.createElement("div");
+        postInfoRow.classList.add("post-info-row");
+
+        const authorInfo = document.createElement("div");
+        authorInfo.classList.add("author-info");
+
+        const authorProfile = document.createElement("div");
+        authorProfile.classList.add("author-profile");
+
+        const authorName = document.createElement("strong");
+        authorName.classList.add("author-name");
+        authorName.id = "postAuthor";
+        authorName.textContent = "더미 작성자 1";
+
+        const date = document.createElement("time");
+        date.classList.add("post-date");
+        date.id = "postDate";
+        date.textContent = "2021-01-01 00:00:00";
+
+        authorInfo.appendChild(authorProfile);
+        authorInfo.appendChild(authorName);
+        authorInfo.appendChild(date);
+
+        const actions = document.createElement("div");
+        actions.classList.add("post-actions");
+
+        const editPostButton = document.createElement("button");
+        editPostButton.type = "button";
+        editPostButton.classList.add("small-button");
+        editPostButton.id = "editPostButton";
+        editPostButton.textContent = "수정";
+
+        editPostButton.addEventListener("click", (event) => {
+            window.location.href = `./post-form.html?postId=${postId}&mode=edit`;
         });
 
-        // 6. 삭제 버튼 누르면 게시글 삭제하고 게시글 목록으로 돌아감
-        confirmDeleteButton.addEventListener("click", (event) => {
-            // 게시글 삭제 처리 구현
+        const deletePostButton = document.createElement("button");
+        deletePostButton.type = "button";
+        deletePostButton.classList.add("small-button");
+        deletePostButton.id = "deletePostButton";
+        deletePostButton.textContent = "삭제";
 
-            // 7. 다시 모달창 숨기고 배경 스크롤 가능
-            deletePostModal.classList.add("is-hidden");
-            document.body.classList.remove("modal-open");
-
-            // 8. 게시글 목록으로 돌아감
-            window.location.href = `./posts.html`;
-        });
-    });
-
-    // 1. 댓글 값, 댓글 등록 버튼 가져옴
-    const commentInput = document.querySelector("#commentInput");
-    const commentSubmitButton = document.querySelector("#commentSubmitButton");
-
-    // 2. 댓글 값이 없으면 댓글 등록 버튼 비활성화, 값이 있으면 활성화
-    commentInput.addEventListener("input", function () {
-        const comment = commentInput.value.trim();
-
-        if (comment === "") {
-            commentSubmitButton.disabled = true;
-        } else {
-            commentSubmitButton.disabled = false;
-        }
-    });
-
-    // 1. 댓글 수정, 삭제 버튼 가져옴
-    const commentEditButtons = document.querySelectorAll(".comment-edit-button");
-    const commentDeleteButtons = document.querySelectorAll(".comment-delete-button");
-
-    // 2. 각 댓글의 수정 버튼에 이벤트 리스너 등록
-    commentEditButtons.forEach(function (commentEditButton) {
-        commentEditButton.addEventListener("click", function (event) {
-            // 3. 클릭한 버튼과 가장 가까운 .comment-item을 가져옴
-            const commentItem = event.target.closest(".comment-item");
-            // 4. commentItem의 댓글 내용을 가져옴
-            const commentContent = commentItem.querySelector(".comment-content");
-
-            // 5. 댓글 입력창에 수정할 댓글의 내용을 올림
-            commentInput.value = commentContent.textContent;
-
-            // 6. 댓글 등록 버튼을 댓글 수정으로 바꾸고 활성화
-            commentSubmitButton.textContent = "댓글 수정";
-            commentSubmitButton.disabled = "false";
-        });
-    });
-
-    // 2. 각 댓글의 삭제 버튼에 이벤트 리스너 등록
-    commentDeleteButtons.forEach(function (commentDeleteButton) {
-        commentDeleteButton.addEventListener("click", function () {
+        deletePostButton.addEventListener("click", () => {
             // 3. 삭제 모달창 가져옴
-            const deleteCommentModal = document.querySelector("#deleteCommentModal");
+            const deletePostModal = document.querySelector("#deletePostModal");
 
             // 4. 삭제 모달창 띄우고 배경 스크롤 불가능
-            deleteCommentModal.classList.remove("is-hidden");
+            deletePostModal.classList.remove("is-hidden");
             document.body.classList.add("modal-open");
 
             // 5. 삭제 모달창의 취소, 확인 버튼 가져옴
-            const cancelDeleteCommentButton = document.querySelector("#cancelDeleteCommentButton");
-            const confirmDeleteCommentButton = document.querySelector("#confirmDeleteCommentButton");
+            const cancelDeleteButton = document.querySelector("#cancelDeleteButton");
+            const confirmDeleteButton = document.querySelector("#confirmDeleteButton");
 
             // 6. 취소 버튼 누르면 모달창 숨기고 배경 스크롤 가능
-            cancelDeleteCommentButton.addEventListener("click", () => {
-                deleteCommentModal.classList.add("is-hidden");
+            cancelDeleteButton.addEventListener("click", () => {
+                deletePostModal.classList.add("is-hidden");
                 document.body.classList.remove("modal-open");
             });
 
-            // 6. 삭제 버튼 누르면 댓글 삭제하고 게시글로 돌아감
-            confirmDeleteCommentButton.addEventListener("click", (event) => {
-                // 댓글 삭제 처리 구현
+            // 6. 삭제 버튼 누르면 게시글 삭제하고 게시글 목록으로 돌아감
+            confirmDeleteButton.addEventListener("click", (event) => {
+                // 게시글 삭제 처리 구현
 
                 // 7. 다시 모달창 숨기고 배경 스크롤 가능
-                deleteCommentModal.classList.add("is-hidden");
+                deletePostModal.classList.add("is-hidden");
                 document.body.classList.remove("modal-open");
 
-                // 8. 해당 페이지 새로고침
-                window.location.reload();
+                // 8. 게시글 목록으로 돌아감
+                window.location.href = `./posts.html`;
             });
         });
-    });
+
+        actions.appendChild(editPostButton);
+        actions.appendChild(deletePostButton);
+
+        postInfoRow.appendChild(authorInfo);
+        postInfoRow.appendChild(actions);
+
+        header.appendChild(title);
+        header.appendChild(postInfoRow);
+
+        const body = document.createElement("section");
+        body.classList.add("post-body");
+
+        const image = document.createElement("div");
+        image.classList.add("post-image");
+        image.ariaLabel = "게시글 이미지 영역";
+
+        const content = document.createElement("p");
+        content.classList.add("post-content");
+        content.id = "postContent";
+        content.textContent = post.content;
+
+        const stats = document.createElement("div");
+        stats.classList.add("post-stats");
+
+        const likeBox = document.createElement("div");
+        likeBox.classList.add("stat-box");
+
+        const likeCount = document.createElement("strong");
+        likeCount.id = "likeCount";
+        likeCount.textContent = "123";
+
+        const like = document.createElement("span");
+        like.textContent = "좋아요수";
+
+        likeBox.appendChild(likeCount);
+        likeBox.appendChild(like);
+
+        const viewBox = document.createElement("div");
+        viewBox.classList.add("stat-box");
+
+        const viewCount = document.createElement("strong");
+        viewCount.id = "viewCount";
+        viewCount.textContent = "123";
+
+        const view = document.createElement("span");
+        view.textContent = "조회수";
+
+        viewBox.appendChild(viewCount);
+        viewBox.appendChild(view);
+
+        const commentBox = document.createElement("div");
+        commentBox.classList.add("stat-box");
+
+        const commentCount = document.createElement("strong");
+        commentCount.id = "commentCount";
+        commentCount.textContent = "123";
+
+        const comment = document.createElement("span");
+        comment.textContent = "댓글수";
+
+        commentBox.appendChild(commentCount);
+        commentBox.appendChild(comment);
+
+        stats.appendChild(likeBox);
+        stats.appendChild(viewBox);
+        stats.appendChild(commentBox);
+
+        body.appendChild(image);
+        body.appendChild(content);
+        body.appendChild(stats);
+
+        article.appendChild(header);
+        article.appendChild(body);
+
+        const commentSection = document.createElement("section");
+        commentSection.classList.add("comment-section");
+
+        const commentForm = document.createElement("form");
+        commentForm.classList.add("comment-form");
+        commentForm.id = "commentForm";
+        commentForm.dataset.mode = "create";
+
+        const commentInput = document.createElement("textarea");
+        commentInput.id = "commentInput";
+        commentInput.name = "comment";
+        commentInput.placeholder = "댓글을 남겨주세요!";
+
+        commentInput.addEventListener("input", function () {
+            const comment = commentInput.value.trim();
+
+            if (comment === "") {
+                commentSubmitButton.disabled = true;
+            } else {
+                commentSubmitButton.disabled = false;
+            }
+        });
+
+        const footer = document.createElement("div");
+        footer.classList.add("comment-form-footer");
+
+        const commentSubmitButton = document.createElement("button");
+        commentSubmitButton.type = "submit";
+        commentSubmitButton.classList.add("comment-submit-button");
+        commentSubmitButton.id = "commentSubmitButton";
+        commentSubmitButton.disabled = true;
+        commentSubmitButton.textContent = "댓글 등록";
+
+        footer.appendChild(commentSubmitButton);
+
+        commentForm.appendChild(commentInput);
+        commentForm.appendChild(footer);
+
+        // const comments = await getComments();
+        const comments = [
+            {
+                commentId: 1,
+                authorName: "더미 작성자 1",
+                createdAt: "2021-01-01 00:00:00",
+                createdAtDateTime: "2021-01-01T00:00:00",
+                content: "댓글 내용"
+            },
+            {
+                commentId: 2,
+                authorName: "더미 작성자 1",
+                createdAt: "2021-01-01 00:00:00",
+                createdAtDateTime: "2021-01-01T00:00:00",
+                content: "댓글 내용"
+            },
+            {
+                commentId: 3,
+                authorName: "더미 작성자 1",
+                createdAt: "2021-01-01 00:00:00",
+                createdAtDateTime: "2021-01-01T00:00:00",
+                content: "댓글 내용"
+            }
+        ];
+
+        const commentList = document.createElement("div");
+        commentList.classList.add("comment-list");
+        commentList.id = "commentList";
+
+        comments.forEach((comment) => {
+            const commentItem = createCommentItem(comment);
+            commentList.appendChild(commentItem);
+        });
+
+        commentSection.appendChild(commentForm);
+        commentSection.appendChild(commentList);
+
+        main.appendChild(article);
+        main.appendChild(commentSection);
+
+        function createCommentItem(comment) {
+            const article = document.createElement("article");
+            article.classList.add("comment-item");
+            article.dataset.commentId = comment.commentId;
+
+            const commentHeader = document.createElement("div");
+            commentHeader.classList.add("comment-header");
+
+            const authorInfo = document.createElement("div");
+            authorInfo.classList.add("author-info");
+
+            const authorProfile = document.createElement("div");
+            authorProfile.classList.add("author-profile");
+
+            const authorName = document.createElement("strong");
+            authorName.classList.add("author-name");
+            authorName.textContent = comment.authorName;
+
+            const postDate = document.createElement("time");
+            postDate.classList.add("post-date");
+            postDate.dateTime = comment.createdAtDateTime;
+            postDate.textContent = comment.createdAt;
+
+            authorInfo.appendChild(authorProfile);
+            authorInfo.appendChild(authorName);
+            authorInfo.appendChild(postDate);
+
+            const commentActions = document.createElement("div");
+            commentActions.classList.add("comment-actions");
+
+            const commentEditButton = document.createElement("button");
+            commentEditButton.type = "button";
+            commentEditButton.classList.add("small-button", "comment-edit-button");
+            commentEditButton.id = "commentEditButton";
+            commentEditButton.textContent = "수정";
+
+            commentEditButton.addEventListener("click", function (event) {
+                // 3. 클릭한 버튼과 가장 가까운 .comment-item을 가져옴
+                const commentItem = event.target.closest(".comment-item");
+                // 4. commentItem의 댓글 내용을 가져옴
+                const commentContent = commentItem.querySelector(".comment-content");
+
+                // 5. 댓글 입력창에 수정할 댓글의 내용을 올림
+                commentInput.value = commentContent.textContent;
+
+                // 6. 댓글 등록 버튼을 댓글 수정으로 바꾸고 활성화
+                commentSubmitButton.textContent = "댓글 수정";
+                commentSubmitButton.disabled = "false";
+            });
+
+            const commentDeleteButton = document.createElement("button");
+            commentDeleteButton.type = "button";
+            commentDeleteButton.classList.add("small-button", "comment-delete-button");
+            commentDeleteButton.textContent = "삭제";
+
+            commentDeleteButton.addEventListener("click", function () {
+                // 3. 삭제 모달창 가져옴
+                const deleteCommentModal = document.querySelector("#deleteCommentModal");
+
+                // 4. 삭제 모달창 띄우고 배경 스크롤 불가능
+                deleteCommentModal.classList.remove("is-hidden");
+                document.body.classList.add("modal-open");
+
+                // 5. 삭제 모달창의 취소, 확인 버튼 가져옴
+                const cancelDeleteCommentButton = document.querySelector("#cancelDeleteCommentButton");
+                const confirmDeleteCommentButton = document.querySelector("#confirmDeleteCommentButton");
+
+                // 6. 취소 버튼 누르면 모달창 숨기고 배경 스크롤 가능
+                cancelDeleteCommentButton.addEventListener("click", () => {
+                    deleteCommentModal.classList.add("is-hidden");
+                    document.body.classList.remove("modal-open");
+                });
+
+                // 6. 삭제 버튼 누르면 댓글 삭제하고 게시글로 돌아감
+                confirmDeleteCommentButton.addEventListener("click", (event) => {
+                    // 댓글 삭제 처리 구현
+
+                    // 7. 다시 모달창 숨기고 배경 스크롤 가능
+                    deleteCommentModal.classList.add("is-hidden");
+                    document.body.classList.remove("modal-open");
+
+                    // 8. 해당 페이지 새로고침
+                    window.location.reload();
+                });
+            });
+
+            commentActions.appendChild(commentEditButton);
+            commentActions.appendChild(commentDeleteButton);
+
+            commentHeader.appendChild(authorInfo);
+            commentHeader.appendChild(commentActions);
+
+            const commentContent = document.createElement("p");
+            commentContent.classList.add("comment-content");
+            commentContent.textContent = comment.content;
+
+            article.appendChild(commentHeader);
+            article.appendChild(commentContent);
+
+            return article;
+        }
+    } catch (error) {
+        alert(error.message);
+    }
 });

@@ -1,7 +1,14 @@
-import { createPost } from "./api/postApi.js";
+import { createPost, getPost, updatePost } from "./api/postApi.js";
 
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+    // 1. 게시글 폼, 제목 폼, 내용 폼, 안내 문구 가져옴
+    const postForm = document.querySelector("#postForm");
+    const titleInput = document.querySelector("#title");
+    const contentInput = document.querySelector("#content");
+    const postImage = document.querySelector("#postImage");
+    const helperText = document.querySelector("#helperText");
+
     // 1. URL 파라미터 가져옴
     const params = new URLSearchParams(window.location.search);
 
@@ -18,15 +25,12 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.textContent = "게시글 수정";
         submitButton.textContent = "수정하기";
 
-        // 해당 게시글 데이터 불러오는 로직 나중에 추가
-    }
+        const post = await getPost(postId);
 
-    // 1. 게시글 폼, 제목 폼, 내용 폼, 안내 문구 가져옴
-    const postForm = document.querySelector("#postForm");
-    const titleInput = document.querySelector("#title");
-    const contentInput = document.querySelector("#content");
-    const postImage = document.querySelector("#postImage");
-    const helperText = document.querySelector("#helperText");
+        titleInput.value = post.title;
+        contentInput.value = post.content;
+        postImage.value = post.postImage;
+    }
 
     // 입력 폼이 포커스 되었었는지
     let isTitleFocused = false;
@@ -44,15 +48,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 4. 제목, 내용 모두 입력되어서 폼 제출 가능
         if (postData.title !== "" && postData.content !== "") {
-            const result = await createPost(postData);
+            if (mode === "edit") {
+                const result = await updatePost(postId, postData);
 
-            console.log(result);
+                console.log(result);
 
-            localStorage.setItem("postId", result.postId);
-            
-            const postId = localStorage.getItem("postId");
+                window.location.href = `./post-detail.html?postId=${postId}`;
+            } else {
+                const result = await createPost(postData);
 
-            window.location.href = `./post-detail.html?postId=${postId}`;
+                localStorage.setItem("postId", result.postId);
+                const postId = localStorage.getItem("postId");
+
+                console.log(result);
+
+                window.location.href = `./post-detail.html?postId=${postId}`;
+            }
         }
     });
 

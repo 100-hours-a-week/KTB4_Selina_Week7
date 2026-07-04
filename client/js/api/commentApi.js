@@ -8,6 +8,13 @@ export function createComment(postId, commentData) {
     });
 }
 
+// 댓글 조회
+export function getComments(postId) {
+    return request(`/posts/${postId}/comments`, {
+        method: "GET"
+    });
+}
+
 // 댓글 수정
 export function updateComment(postId, commentId, commentData) {
     return request(`/posts/${postId}/comments/${commentId}`, {

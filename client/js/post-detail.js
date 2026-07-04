@@ -1,5 +1,5 @@
 import { getPost, deletePost } from './api/postApi.js';
-import { createComment } from './api/commentApi.js';
+import { createComment, getComments } from './api/commentApi.js';
 
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", async function () {
@@ -230,30 +230,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             window.location.reload();
         });
 
-        // const comments = await getComments();
-        const comments = [
-            {
-                commentId: 1,
-                authorName: "더미 작성자 1",
-                createdAt: "2021-01-01 00:00:00",
-                createdAtDateTime: "2021-01-01T00:00:00",
-                content: "댓글 내용"
-            },
-            {
-                commentId: 2,
-                authorName: "더미 작성자 1",
-                createdAt: "2021-01-01 00:00:00",
-                createdAtDateTime: "2021-01-01T00:00:00",
-                content: "댓글 내용"
-            },
-            {
-                commentId: 3,
-                authorName: "더미 작성자 1",
-                createdAt: "2021-01-01 00:00:00",
-                createdAtDateTime: "2021-01-01T00:00:00",
-                content: "댓글 내용"
-            }
-        ];
+        const result = await getComments(postId);
+        const comments = result.comments;
 
         const commentList = document.createElement("div");
         commentList.classList.add("comment-list");
@@ -286,12 +264,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const authorName = document.createElement("strong");
             authorName.classList.add("author-name");
-            authorName.textContent = comment.authorName;
+            authorName.textContent = "더미 작성자 1";
 
             const postDate = document.createElement("time");
             postDate.classList.add("post-date");
-            postDate.dateTime = comment.createdAtDateTime;
-            postDate.textContent = comment.createdAt;
+            postDate.textContent = "2021-01-01 00:00:00";
 
             authorInfo.appendChild(authorProfile);
             authorInfo.appendChild(authorName);
@@ -364,7 +341,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const commentContent = document.createElement("p");
             commentContent.classList.add("comment-content");
-            commentContent.textContent = comment.content;
+            commentContent.textContent = comment.commentContent;
 
             article.appendChild(commentHeader);
             article.appendChild(commentContent);

@@ -1,5 +1,5 @@
 import { getPost, deletePost } from './api/postApi.js';
-import { createComment, getComments, deleteComment } from './api/commentApi.js';
+import { createComment, getComments, updateComment, deleteComment } from './api/commentApi.js';
 
 // 0. HTML이 다 로드된 뒤 이벤트 리스너를 등록
 document.addEventListener("DOMContentLoaded", async function () {
@@ -223,8 +223,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             };
             console.log(commentData.comment);
 
-            const result = await createComment(postId, commentData);
-
+            if (commentForm.dataset.mode === "edit") {
+                const result = await updateComment(postId, commentForm.dataset.commentId, commentData);
+            } else if (commentForm.dataset.mode === "create") {
+                const result = await createComment(postId, commentData);
+            }
+            
             console.log(result);
 
             window.location.reload();
@@ -286,11 +290,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             commentEditButton.addEventListener("click", function (event) {
                 // 3. 클릭한 버튼과 가장 가까운 .comment-item을 가져옴
                 const commentItem = event.target.closest(".comment-item");
-                // 4. commentItem의 댓글 내용을 가져옴
+                const commentId = commentItem.dataset.commentId;
                 const commentContent = commentItem.querySelector(".comment-content");
 
                 // 5. 댓글 입력창에 수정할 댓글의 내용을 올림
                 commentInput.value = commentContent.textContent;
+
+                commentForm.dataset.mode = "edit";
+                commentForm.dataset.commentId = commentId;
 
                 // 6. 댓글 등록 버튼을 댓글 수정으로 바꾸고 활성화
                 commentSubmitButton.textContent = "댓글 수정";

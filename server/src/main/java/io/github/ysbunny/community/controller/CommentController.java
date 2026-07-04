@@ -1,9 +1,6 @@
 package io.github.ysbunny.community.controller;
 
-import io.github.ysbunny.community.dto.comment.CommentListResponse;
-import io.github.ysbunny.community.dto.comment.CreateCommentRequest;
-import io.github.ysbunny.community.dto.comment.CreateCommentResponse;
-import io.github.ysbunny.community.dto.comment.DeleteCommentResponse;
+import io.github.ysbunny.community.dto.comment.*;
 import io.github.ysbunny.community.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +27,18 @@ public class CommentController {
     @GetMapping
     public CommentListResponse getCommentList(@PathVariable Long postId) {
         return commentService.getCommentList(postId);
+    }
+
+    @PatchMapping("/{commentId}")
+    public UpdateCommentResponse updateComment(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable Long postId,
+            @PathVariable Long commentId,
+            @Valid @RequestBody UpdateCommentRequest request
+    ) {
+        String loginToken = authorizationHeader.replace("Bearer ", "");
+
+        return  commentService.updateComment(loginToken, postId, commentId, request);
     }
 
     @DeleteMapping("/{commentId}")

@@ -66,6 +66,30 @@ public class CommentService {
     }
 
     @Transactional
+    public UpdateCommentResponse updateComment(
+            String loginToken,
+            Long postId,
+            Long commentId,
+            UpdateCommentRequest request
+    ) {
+        User user = userRepository.findByLoginToken(loginToken)
+                .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));
+
+        postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("post does not exist"));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("comment does not exist"));
+
+        if (user != comment.getAuthor()) {
+            throw new IllegalArgumentException("unauthorized user");
+        }
+
+        comment.changeComment(request.getComment());
+
+        return new UpdateCommentResponse(comment.getId());
+    }
+
+    @Transactional
     public DeleteCommentResponse deleteComment(String loginToken, Long postId, Long commentId) {
         User user = userRepository.findByLoginToken(loginToken)
                 .orElseThrow(() -> new IllegalArgumentException("unauthenticated user"));

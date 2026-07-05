@@ -50,7 +50,7 @@ profileEditForm.addEventListener("submit", async function (event) {
     // 2. 회원정보 수정 폼 제출 기본 동작 막음
     event.preventDefault();
 
-    const userId = 1;   // 임시 번호
+    const userId = localStorage.getItem("userId");
 
     const userData = {
         nickname: nicknameInput.value.trim(),
